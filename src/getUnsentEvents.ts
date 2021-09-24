@@ -25,7 +25,7 @@ interface Event {
 const hasOwnProperty = <X extends object, Y extends PropertyKey>(
   obj: X,
   prop: Y,
-): obj is X & Record<Y, unknown> => prop in obj 
+): obj is X & Record<Y, unknown> => prop in obj
 
 const eventDecoder: Decoder<Event> = _.succeed({})
   .assign('id', _.field('id', _.string))
