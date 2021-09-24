@@ -13,7 +13,7 @@ const xmlBuilder = new xml2js.Builder()
 export const getLabels = async (
   { username, password }: { username: string; password: string },
   barcode: string,
-) => {
+): Promise<string> => {
   const response = await fetch(FULL_URL, {
     method: 'post',
     body: xmlBuilder.buildObject({
@@ -41,6 +41,7 @@ export const getLabels = async (
   })
 
   const xml = await response.text()
+
   const parsedXML: unknown = await parseString(xml, {
     trim: true,
     explicitArray: false,
