@@ -10,7 +10,7 @@ import { XML_SERVICE_URL } from './constants'
 const getEventUrl = (username: string) =>
   `${XML_SERVICE_URL}/epteavitus/events/unsent/for-client-code/${username}`
 
-interface Event {
+export interface Event {
   id: string
   date: string
   code: string
@@ -52,7 +52,7 @@ const eventDecoder: Decoder<Event> = _.succeed({})
   )
   .assign('barcode', _.field('packetCode', _.string))
 
-const getUnsentEvents = async ({
+export const getUnsentEvents = async ({
   username,
   password,
 }: {
@@ -100,5 +100,3 @@ const getUnsentEvents = async ({
 
   return events
 }
-
-export default getUnsentEvents

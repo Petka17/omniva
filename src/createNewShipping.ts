@@ -10,7 +10,7 @@ const FULL_URL = `${XML_SERVICE_URL}/epmx/services/messagesService`
 
 const xmlBuilder = new xml2js.Builder()
 
-export type ShipmentCategory = 'presend' | 'b2c' | 'c2c'
+type ShipmentCategory = 'presend' | 'b2c' | 'c2c'
 
 const getMainTag = (category: ShipmentCategory) =>
   category === 'presend'
@@ -19,8 +19,8 @@ const getMainTag = (category: ShipmentCategory) =>
     ? 'businessToClientMsg'
     : 'clientToClientMsg'
 
-export type MainService = 'QH' | 'QL' | 'PA' | 'PU' | 'PK' | 'PP'
-export type AdditionalService = 'BP' | 'SE' | 'SS' | 'BC' | 'SF' | 'ST' | 'BI' | 'GN' | 'GM'
+type MainService = 'QH' | 'QL' | 'PA' | 'PU' | 'PK' | 'PP'
+type AdditionalService = 'BP' | 'SE' | 'SS' | 'BC' | 'SF' | 'ST' | 'BI' | 'GN' | 'GM'
 
 export interface Measures {
   /**
@@ -205,15 +205,7 @@ const generateXML = ({
     },
   })
 
-const parseXML = (xml: string): unknown =>
-  parseString(xml, {
-    trim: true,
-    explicitArray: false,
-    ignoreAttrs: true,
-    tagNameProcessors: [xml2js.processors.stripPrefix],
-  })
-
-const createNewShipment = async (
+export const createNewShipment = async (
   { username, password }: { username: string; password: string },
   data: NewShipmentInfo,
 ): Promise<string> => {
@@ -228,8 +220,16 @@ const createNewShipment = async (
   })
 
   const xml = await response.text()
-  const parsedXML: unknown = await parseXML(xml)
+  const parsedXML: unknown = await parseString(xml, {
+    trim: true,
+    explicitArray: false,
+    ignoreAttrs: true,
+    tagNameProcessors: [xml2js.processors.stripPrefix],
+  })
+
   const mainPath = ['Envelope', 'Body', `${getMainTag(data.category)}Response`]
+
+  console.log(JSON.stringify(parsedXML, null, 2))
 
   if (!response.ok) {
     const message = _.at([...mainPath, 'faultyPacketInfo', 'barcodeInfo', 'message'], _.string)
