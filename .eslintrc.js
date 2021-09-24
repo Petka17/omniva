@@ -14,5 +14,21 @@ module.exports = {
   rules: {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    "@typescript-eslint/ban-types": [
+      "error", {
+        "types": {
+          "String": {
+            "message": "Use string instead",
+            "fixWith": "string"
+          },
+
+          "{}": {
+            "message": "Use object instead",
+            "fixWith": "object"
+          },
+        },
+        extendDefaults: false
+      }
+    ]
   },
 }

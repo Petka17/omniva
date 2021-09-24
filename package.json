@@ -10,8 +10,16 @@
   "scripts": {
     "build": "tsc"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jsonous": "^7.0.0",
+    "node-fetch": "2.6.5",
+    "resulty": "4.0.0",
+    "xml2js": "0.4.23"
+  },
   "devDependencies": {
+    "@types/node": "16.9.6",
+    "@types/node-fetch": "2.5.12",
+    "@types/xml2js": "0.4.9",
     "@typescript-eslint/eslint-plugin": "4.31.2",
     "@typescript-eslint/parser": "4.31.2",
     "eslint": "7.32.0",
@@ -19,6 +27,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
     "prettier": "2.4.1",
+    "ts-node": "10.2.1",
     "typescript": "4.4.3"
   }
 }
