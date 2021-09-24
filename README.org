@@ -1,0 +1,8 @@
+* Wrapper for Omniva XML API
+  - [[https://www.omniva.lt/public/files/failid/manual_xml_dataexchange_eng.pdf][Official Docs]]  
+  - [[https://www.omniva.ee/public/files/failid/omniva-teenuste-koodid-est-ee.pdf][Service codes for Estonia]]
+  - [[https://www.omniva.ee/public/files/failid/omniva-service-codes-lv-eng.pdf][Service codes for Latvia]]  
+  - [[https://www.omniva.ee/public/files/failid/omniva-service-codes-lt-eng.pdf][Service codes for Lithuania]]  
+  - [[https://www.omniva.ee/public/files/failid/offload-specification.pdf][Offload Postcode]] (post office and parcel machine list)  
+  - [[https://www.omniva.ee/locations.xml][Locations XML]]  
+  - [[https://www.omniva.ee/locations.json][Locations JSON]]

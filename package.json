@@ -1,0 +1,24 @@
+{
+  "name": "omniva",
+  "version": "0.0.1",
+  "description": "Wrapper for Omniva XML API",
+  "main": "dist/index.js",
+  "repository": "git@github.com:Petka17/omniva.git",
+  "author": "Petr Klimenko <petrklim@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.31.2",
+    "@typescript-eslint/parser": "4.31.2",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "prettier": "2.4.1",
+    "typescript": "4.4.3"
+  }
+}
