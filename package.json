@@ -7,10 +7,16 @@
   "author": "Petr Klimenko <petrklim@gmail.com>",
   "license": "MIT",
   "private": false,
+  "np": {
+		"contents": "dist"
+	},
+  "files": ["dist", "package.json", "yarn.lock"],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "whoami": "npm whoami"
   },
   "dependencies": {
+    "jsbarcode": "3.11.5",
     "jsonous": "^7.0.0",
     "node-fetch": "2.6.5",
     "resulty": "4.0.0",
@@ -26,6 +32,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-simple-import-sort": "7.0.0",
+    "np": "7.5.0",
     "prettier": "2.4.1",
     "ts-node": "10.2.1",
     "typescript": "4.4.3"
