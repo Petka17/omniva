@@ -17,7 +17,6 @@
     "whoami": "npm whoami"
   },
   "dependencies": {
-    "jsbarcode": "3.11.5",
     "jsonous": "^7.0.0",
     "node-fetch": "2.6.5",
     "resulty": "4.0.0",
