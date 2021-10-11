@@ -1,4 +1,5 @@
 src/
 .eslintrc.js
 .prettier
+tsconfig.json
 label.pdf

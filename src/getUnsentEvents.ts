@@ -3,6 +3,7 @@ import Decoder from 'jsonous'
 import fetch from 'node-fetch'
 import { err, ok } from 'resulty'
 import { parseStringPromise as parseString } from 'xml2js'
+import xml2js from 'xml2js'
 
 import { getBasicAuth } from './common'
 import { XML_SERVICE_URL } from './constants'
@@ -76,16 +77,19 @@ export const getUnsentEvents = async ({
     trim: true,
     explicitArray: false,
     preserveChildrenOrder: true,
+    tagNameProcessors: [xml2js.processors.stripPrefix],
   })
 
   const [events, errorMessage] = _.field(
-    'xsd:events',
+    'events',
     new Decoder<Event[]>((events: unknown) =>
       typeof events !== 'object' || events === null
         ? err('expected object')
-        : hasOwnProperty(events, 'event')
+        : !hasOwnProperty(events, 'event')
+        ? ok([])
+        : events.event instanceof Array
         ? _.array(eventDecoder).decodeAny(events.event)
-        : ok([]),
+        : eventDecoder.decodeAny(events.event).map((event) => [event]),
     ),
   )
     .decodeAny(parsedXML)
