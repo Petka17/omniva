@@ -71,6 +71,8 @@ export const getUnsentEvents = async ({
 
   const xml = await response.text()
 
+  console.log(xml)
+
   const parsedXML: unknown = await parseString(xml, {
     charkey: 'value',
     mergeAttrs: true,
