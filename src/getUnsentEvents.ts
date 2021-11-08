@@ -53,7 +53,7 @@ const eventDecoder: Decoder<Event> = _.succeed({})
   )
   .assign('barcode', _.field('packetCode', _.string))
 
-export const decodeEventXML = async (xml: string) =>
+export const decodeEventXML = async (xml: string): Promise<[Event[] | null, string]> =>
   _.field(
     'events',
     new Decoder<Event[]>((events: unknown) =>
