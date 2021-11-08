@@ -53,6 +53,34 @@ const eventDecoder: Decoder<Event> = _.succeed({})
   )
   .assign('barcode', _.field('packetCode', _.string))
 
+export const decodeEventXML = async (xml: string) =>
+  _.field(
+    'events',
+    new Decoder<Event[]>((events: unknown) =>
+      typeof events !== 'object' || events === null
+        ? err('expected object')
+        : !hasOwnProperty(events, 'event')
+        ? ok([])
+        : events.event instanceof Array
+        ? _.array(eventDecoder).decodeAny(events.event)
+        : eventDecoder.decodeAny(events.event).map((event) => [event]),
+    ),
+  )
+    .decodeAny(
+      await parseString(xml, {
+        charkey: 'value',
+        mergeAttrs: true,
+        trim: true,
+        explicitArray: false,
+        preserveChildrenOrder: true,
+        tagNameProcessors: [xml2js.processors.stripPrefix],
+      }),
+    )
+    .cata<[Event[] | null, string]>({
+      Ok: (val) => [val, ''],
+      Err: (msg) => [null, msg],
+    })
+
 export const getUnsentEvents = async ({
   username,
   password,
@@ -73,32 +101,7 @@ export const getUnsentEvents = async ({
 
   console.log(xml)
 
-  const parsedXML: unknown = await parseString(xml, {
-    charkey: 'value',
-    mergeAttrs: true,
-    trim: true,
-    explicitArray: false,
-    preserveChildrenOrder: true,
-    tagNameProcessors: [xml2js.processors.stripPrefix],
-  })
-
-  const [events, errorMessage] = _.field(
-    'events',
-    new Decoder<Event[]>((events: unknown) =>
-      typeof events !== 'object' || events === null
-        ? err('expected object')
-        : !hasOwnProperty(events, 'event')
-        ? ok([])
-        : events.event instanceof Array
-        ? _.array(eventDecoder).decodeAny(events.event)
-        : eventDecoder.decodeAny(events.event).map((event) => [event]),
-    ),
-  )
-    .decodeAny(parsedXML)
-    .cata<[Event[] | null, string]>({
-      Ok: (val) => [val, ''],
-      Err: (msg) => [null, msg],
-    })
+  const [events, errorMessage] = await decodeEventXML(xml)
 
   if (events === null) {
     return Promise.reject(errorMessage)
