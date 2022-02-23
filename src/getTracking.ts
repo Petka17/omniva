@@ -10,7 +10,7 @@ export interface TrackEvent {
   location: string
 }
 
-export const locationDecoder: Decoder<TrackEvent> = _.field(
+export const trackingEventDecoder: Decoder<TrackEvent> = _.field(
   'td',
   _.succeed({})
     .assign('name', _.at([0], _.string))
@@ -35,7 +35,7 @@ export const getTracking = async (barcode: string, language = 'eng'): Promise<Tr
     tagNameProcessors: [xml2js.processors.stripPrefix],
   })
 
-  const [events, errorMessage] = _.at(['table', 'tbody', 'tr'], _.array(locationDecoder))
+  const [events, errorMessage] = _.at(['table', 'tbody', 'tr'], _.array(trackingEventDecoder))
     .decodeAny(parsedXML)
     .cata<[TrackEvent[] | null, string]>({
       Ok: (val) => [val, ''],
