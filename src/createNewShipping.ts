@@ -144,6 +144,7 @@ export interface Contact {
 }
 
 export interface NewShipmentInfo {
+  fileId?: string
   category: ShipmentCategory
   mainService: MainService
   additionalServices?: AdditionalService[]
@@ -153,6 +154,7 @@ export interface NewShipmentInfo {
 }
 
 const generateXML = ({
+  fileId,
   partner,
   category,
   mainService,
@@ -173,7 +175,7 @@ const generateXML = ({
           partner,
           interchange: {
             $: { msg_type: 'elsinfov1' },
-            header: { $: { sender_cd: partner } },
+            header: { $: { sender_cd: partner, file_id: fileId } },
             item_list: {
               item: {
                 $: { service: mainService },
@@ -209,9 +211,13 @@ export const createNewShipment = async (
   { username, password }: { username: string; password: string },
   data: NewShipmentInfo,
 ): Promise<string> => {
+  const xmlRequest = generateXML({ ...data, partner: username })
+
+  console.log(xmlRequest)
+
   const response = await fetch(FULL_URL, {
     method: 'post',
-    body: generateXML({ ...data, partner: username }),
+    body: xmlRequest,
     headers: {
       Authorization: getBasicAuth({ username, password }),
       'Content-Type': 'text/xml',
